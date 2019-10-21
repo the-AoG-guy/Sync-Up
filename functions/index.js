@@ -103,12 +103,13 @@ app.intent('sentiment', (conv, { x }) => {
         case -1: conv.ask('Interesting. Are there any other instances where you feel' + result.negative[0]);
             break;
 
-        case -2: conv.ask('Oh\ ' + 'It\s tough ' + result.negative[0]);
-            conv.ask('Life can be tough sometimes');
+        case -2: conv.ask('Oh\ ' + 'It\s tough ' + result.negative[0] + 'Life can be tough sometimes');
             break;
         default: conv.ask('No value fucker');
             break;
     }
+
+    conv.ask()
 });
 
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest(app);
