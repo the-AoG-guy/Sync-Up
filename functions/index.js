@@ -72,7 +72,26 @@ var sentiment = new Sentiment();
 // }
 
 app.intent('sentiment', (conv, { x }) => {
-    
+    var result = sentiment.analyze(x);
+
+    switch(result.score){
+      case 0: conv.ask('Oh okay. How has life changed in the last year');
+        break;
+      case 1: conv.ask('Interesting. Are there any other instances where you feel' + result.positive[0]);
+             break;
+      case 2: conv.ask('I felt you'+ result.negative[0] +'and'+ result.positive[0] + 'are interesting'+ 'Tell me something about'+ result.positive[0]);
+            break;
+                       
+      
+      case -1:conv.ask('Interesting. Are there any other instances where you feel' + result.negative[0]);
+              break;
+      
+      case -2:conv.ask('Oh\ ' + 'It\s tough ' + result.negative[0]);
+              conv.ask('Life can be tough sometimes');
+              break;
+      default: conv.ask('No value fucker');
+        break;
+    }
 });
 
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest(app);
