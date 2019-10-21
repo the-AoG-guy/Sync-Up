@@ -74,7 +74,7 @@ var keywordExtractor = require("keyword-extractor");
 
 app.intent('sentiment', (conv, { x }) => {
     var result = sentiment.analyze(x);
-    var extraction_result = keywordExtractor.extract(sentence, {
+    var extraction_result = keywordExtractor.extract(x, {
         language: "english",
         remove_digits: true,
         return_changed_case: true,
@@ -109,7 +109,7 @@ app.intent('sentiment', (conv, { x }) => {
             break;
     }
 
-    conv.ask()
+    conv.ask('Your Keywords are' + extraction_result);
 });
 
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest(app);
