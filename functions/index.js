@@ -1,8 +1,8 @@
 'use strict';
 
 const {
-	dialogflow,
-	Suggestions,
+    dialogflow,
+    Suggestions,
 } = require('actions-on-google');
 
 const functions = require('firebase-functions');
@@ -17,6 +17,7 @@ const functions = require('firebase-functions');
 const app = dialogflow({});
 var Sentiment = require('sentiment');
 var sentiment = new Sentiment();
+var keywordExtractor = require("keyword-extractor");
 
 // admin.initializeApp(functions.config().firebase);
 // admin.firestore().settings({ timestampsInSnapshots: true });
@@ -73,24 +74,40 @@ var sentiment = new Sentiment();
 
 app.intent('sentiment', (conv, { x }) => {
     var result = sentiment.analyze(x);
+    var extraction_result = keywordExtractor.extract(sentence, {
+        language: "english",
+        remove_digits: true,
+        return_changed_case: true,
+        remove_duplicates: false
+    });
+    for (let i = 0; i < result.words.length; i++) {
+        if (extraction_result.includes(result.words[i])) {
+            var index = extraction_result.indexOf(result.words[i]);
+            if (index > -1) {
+                extraction_result.splice(index, 1);
+            }
+        }
+    }
+    console.log(extraction_result);
 
-    switch(result.score){
-      case 0: conv.ask('Oh okay. How has life changed in the last year');
-        break;
-      case 1: conv.ask('Interesting. Are there any other instances where you feel' + result.positive[0]);
-             break;
-      case 2: conv.ask('I felt you'+ result.negative[0] +'and'+ result.positive[0] + 'are interesting'+ 'Tell me something about'+ result.positive[0]);
+
+    switch (result.score) {
+        case 0: conv.ask('Oh okay. How has life changed in the last year');
             break;
-                       
-      
-      case -1:conv.ask('Interesting. Are there any other instances where you feel' + result.negative[0]);
-              break;
-      
-      case -2:conv.ask('Oh\ ' + 'It\s tough ' + result.negative[0]);
-              conv.ask('Life can be tough sometimes');
-              break;
-      default: conv.ask('No value fucker');
-        break;
+        case 1: conv.ask('Interesting. Are there any other instances where you feel' + result.positive[0]);
+            break;
+        case 2: conv.ask('I felt you' + result.negative[0] + 'and' + result.positive[0] + 'are interesting' + 'Tell me something about' + result.positive[0]);
+            break;
+
+
+        case -1: conv.ask('Interesting. Are there any other instances where you feel' + result.negative[0]);
+            break;
+
+        case -2: conv.ask('Oh\ ' + 'It\s tough ' + result.negative[0]);
+            conv.ask('Life can be tough sometimes');
+            break;
+        default: conv.ask('No value fucker');
+            break;
     }
 });
 
