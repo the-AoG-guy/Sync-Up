@@ -3,28 +3,21 @@
 const {
 	dialogflow,
 	Suggestions,
-	SignIn,
-	SimpleResponse,
-	BasicCard,
-	Image,
-	Table,
-	RegisterUpdate,
-	List,
-	Carousel,
 } = require('actions-on-google');
 
 const functions = require('firebase-functions');
-const admin = require('firebase-admin');
-const convert = require('convert-units');
-const calcBmi = require('bmi-calc');
-// const sgMail = require('@sendgrid/mail');
-// const SENDGRID_API_KEY = functions.config().sengrid.key;
-const app = dialogflow({
-	clientId: '274009990685-cbp4ol5ura0qjpjssk5v32g8rcm7347o.apps.googleusercontent.com',
-});
+// const admin = require('firebase-admin');
 
-admin.initializeApp(functions.config().firebase);
-admin.firestore().settings({ timestampsInSnapshots: true });
+// const sgMail = require('@sendgrid/mail');
+// // const SENDGRID_API_KEY = functions.config().sengrid.key;
+// const app = dialogflow({
+// 	clientId: '274009990685-cbp4ol5ura0qjpjssk5v32g8rcm7347o.apps.googleusercontent.com',
+// });
+
+const app = dialogflow({});
+
+// admin.initializeApp(functions.config().firebase);
+// admin.firestore().settings({ timestampsInSnapshots: true });
 // sgMail.setApiKey(SENDGRID_API_KEY);
 
 // const auth = admin.auth();
@@ -76,13 +69,8 @@ admin.firestore().settings({ timestampsInSnapshots: true });
 // 	return daylist[day];
 // }
 
-app.intent('new-eggs', (conv) => {
-	const factArr = myoption2;
-	const factIndex = Math.floor(Math.random() * factArr.length);
-	const randomFact = factArr[factIndex];
-	conv.ask(randomFact);
-	conv.ask('Right now I can only help you lead a healthy life, get specialized help for specific diseases or even schedule your medicines. What do you want to do now?');
-	conv.ask(new Suggestions(myFeatures));
+app.intent('sentiment', (conv) => {
+	
 });
 
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest(app);
