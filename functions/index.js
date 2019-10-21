@@ -15,6 +15,8 @@ const functions = require('firebase-functions');
 // });
 
 const app = dialogflow({});
+var Sentiment = require('sentiment');
+var sentiment = new Sentiment();
 
 // admin.initializeApp(functions.config().firebase);
 // admin.firestore().settings({ timestampsInSnapshots: true });
@@ -69,8 +71,17 @@ const app = dialogflow({});
 // 	return daylist[day];
 // }
 
-app.intent('sentiment', (conv) => {
-	
+app.intent('sentiment', (conv, { x }) => {
+    var result = sentiment.analyze(x);
+    if ( result.score < 0) {
+        conv.ask('Hey no need to be sad.');
+    }
+    else if ( result.score > 0) {
+        conv.ask('Awesome, I\'m like so happy for you.');
+    }
+    else {
+        conv.ask('It\'s okay to not have anything interesting in life.');
+    }
 });
 
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest(app);
