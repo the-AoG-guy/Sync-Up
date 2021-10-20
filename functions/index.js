@@ -109,7 +109,7 @@ app.intent('sentiment', (conv, { x }) => {
             break;
     }
 
-    conv.ask('Your Keywords are' + extraction_result);
+    conv.ask('Your Keywords are' + extraction_result);  
 });
 
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest(app);
