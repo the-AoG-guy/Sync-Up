@@ -5,6 +5,20 @@
 
 Sync Up is a voice based social media app for the elderly that uses stories to connect people. Updating the project name to Story
 
+## Author
+
+👤 **Amrit Dash**
+
+* Github: [@the-AoG-guy](https://github.com/the-AoG-guy) _you are here_
+* Twitter: [@the_aog_guy](https://twitter.com/the_aog_guy)
+
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](../../issues). You can also take a look at the [contributing guide](../../CONTRIBUTING.md).
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
 
 ## License
 ![](https://img.shields.io/github/license/the-AoG-guy/save-myloc)
